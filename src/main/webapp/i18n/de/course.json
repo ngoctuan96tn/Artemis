@@ -1,0 +1,185 @@
+{
+    "artemisApp": {
+        "course": {
+            "home": {
+                "title": "Kurse",
+                "createLabel": "Kurs erstellen",
+                "editLabel": "Kurs bearbeiten",
+                "createOrEditLabel": "Kurs erstellen oder bearbeiten"
+            },
+            "created": "Kurs erstellt mit Titel {{ param }}",
+            "updated": "Kurs aktualisiert mit Titel {{ param }}",
+            "deleted": "Kurs gelöscht mit Titel {{ param }}",
+            "delete": {
+                "question": "Soll der Kurs <strong>{{ title }}</strong> wirklich dauerhaft gelöscht werden? Alle zugehörigen Elemente, inklusive der Klausuren, Aufgaben sowie Repositories und Build-Pläne werden gelöscht. Diese Aktion kann NICHT rückgängig gemacht werden!",
+                "typeNameToConfirm": "Bitte gib den Namen des Kurses zur Bestätigung ein."
+            },
+            "showActive": "Nur aktive Kurse anzeigen",
+            "totalScore": "Gesamtergebnis:",
+            "title": "Titel",
+            "color": "Farbe",
+            "courseIcon": "Kursicon",
+            "shortName": "Kurzname",
+            "maxComplaints": {
+                "title": "Maximale Anzahl an Beschwerden pro Student",
+                "description": "Erlaubte Anzahl an Beschwerden von Studierenden setzen. Wenn eine Beschwerde abgelehnt wird, verliert der Studierende sie. Wenn eine Beschwerde akzeptiert wird, behält der Studierende sie. Diese Begrenzung gilt für individuelle Übungen."
+            },
+            "maxTeamComplaints": {
+                "title": "Maximale Anzahl an Beschwerden pro Team",
+                "description": "Erlaubte Anzahl an Beschwerden von Teams setzen. Wenn eine Beschwerde abgelehnt wird, verliert das Team sie. Wenn eine Beschwerde akzeptiert wird, behält das Team sie. Diese Begrenzung gilt für Team-Übungen."
+            },
+            "maxComplaintTimeDays": {
+                "title": "Beschwerdefrist in Tagen nach dem Ergebnis",
+                "description": "Diese Zahl bezieht sich auf die Tage, nachdem das Ergebnis verfügbar ist (Einreichungsfrist der Bewertung oder Ergebnisdatum, je nachdem, welches später liegt). Studierende können sich nach Ablauf dieser Frist nicht mehr beschweren."
+            },
+            "postsEnabled": {
+                "title": "Posts von Studierenden aktivieren",
+                "description": "Postings auf Vorlesung- und Übungsseite aktivieren / deaktivieren"
+            },
+            "complaintsEnabled": {
+                "title": "Beschwerden von Studierenden aktivieren",
+                "description": "Wenn du diese Option aktivierst, können sich Studierende über Ergebnisse beschweren."
+            },
+            "requestMoreFeedbackEnabled": {
+                "title": "Feedbackanfragen von Studierenden aktivieren",
+                "description": "Diese Option ermöglicht den Studierenden, erneut Feedback anzufragen, ohne dabei eine Beschwerde zu nutzen. Weiteres Feedback anzufragen wird nicht auf die Anzahl der Beschwerden angerechnet, erlaubt dafür jedoch keine Veränderung der Bewertung. Standardmäßig ist diese Option aktiviert, sie kann jedoch deaktiviert werden, wenn eine Korrektur der Bewertung immer möglich sein muss."
+            },
+            "maxRequestMoreFeedbackTimeDays": {
+                "title": "Frist für Feedbackanfragen von Studierenden in Tagen nach dem Ergebnis",
+                "description": "Diese Zahl bezieht sich auf die Tage, nachdem das Ergebnis verfügbar ist (Einreichungsfrist der Bewertung oder Ergebnisdatum, je nachdem, welches später liegt). Studierende können nach Ablauf dieser Frist nicht mehr Feedback anfragen."
+            },
+            "customizeGroupNames": {
+                "title": "Passe Gruppennamen an",
+                "description": "Stelle sicher, dass die Gruppen in der externen Verwaltung von Nutzer:innen existieren, wenn du diese Option aktivierst. Die Gruppen werden dann nicht automatisch erzeugt."
+            },
+            "studentGroupName": "Gruppe der Studierenden",
+            "teachingAssistantGroupName": "Gruppe der Tutor:innen",
+            "editorGroupName": "Gruppe der Editor:innen",
+            "instructorGroupName": "Gruppe der Lehrenden",
+            "description": "Kursbeschreibung",
+            "organizations": "Kurs Organisationen",
+            "startDate": "Start",
+            "endDate": "Ende",
+            "semester": "Semester",
+            "maxPoints": {
+                "title": "Maximale Punktzahl",
+                "warning": "Durch die Aktualisierung dieses Feldes wird der Notenschlüssel für den Kurs aktualisiert (falls er existiert), sodass die Punktzahl für die Notenstufen weiterhin den Prozentsätzen entspricht, angepasst an die neue maximale Punktzahl"
+            },
+            "accuracyOfScores": "Anzahl der Nachkommastellen bei der Berechnung von Punktzahlen",
+            "gradingSystem": "Notenschlüssel",
+            "testCourse": {
+                "title": "Testkurs",
+                "description": "Aktiviere diese Checkbox für Kurse die für Testzwecke sind.",
+                "plural": "Testkurse"
+            },
+            "accessGroups": "Zugriffsrechte",
+            "onlineCourse": {
+                "title": "Onlinekurs",
+                "description": "Aktiviere diese Checkbox für externe Onlinekurse (z.B. auf edX), damit Studierende diesen Artemis-Kurs (über die LTI Schnittstelle) nutzen können. Dies ermöglicht auch eine automatische Kontoerstellung, sofern dies vom Artemis Systemadministrator eingestellt ist."
+            },
+            "registrationEnabled": {
+                "title": "Kursregistrierung für Studierende aktiviert",
+                "description": "Aktiviere diese Checkbox, damit sich Studierende selbständig im Kurs registrieren können, sofern dieser aktiv ist (zwischen Start und Ende des Kurses). Du kannst optional eine Nachricht eingeben, die Studierende bei der Registrierung bestätigen müssen."
+            },
+            "registrationConfirmationMessage": "Nachricht zur Bestätigung der Registrierung",
+            "exercises": "Aufgaben",
+            "programmingExercises": "Programmieraufgaben",
+            "quizExercises": "Quizaufgaben",
+            "modelingExercises": "Modellierungsaufgaben",
+            "textExercises": "Textaufgabe",
+            "upload": "Hochladen",
+            "uploading": "Lade hoch...",
+            "fileUploadExercises": "Dateiupload-Aufgabe",
+            "exercise": {
+                "search": {
+                    "searchButton": "Suchen",
+                    "resetButton": "Zurücksetzen",
+                    "toggleButton": {
+                        "true": "Zeige erweiterte Suche",
+                        "false": "Verstecke erweiterte Suche"
+                    },
+                    "cardTitle": "Aufgaben durchsuchen",
+                    "labelExerciseName": "Aufgaben nach Namen durchsuchen",
+                    "fieldExerciseName": "Aufgaben Name",
+                    "labelExerciseCategory": "Kategorie",
+                    "fieldExerciseCategory": "Kategorie",
+                    "labelExerciseType": "Aufgabentyp",
+                    "noResults": "Keine Aufgaben wurden für die Suchparameter gefunden",
+                    "type": {
+                        "all": "Alle Aufgaben",
+                        "programming": "Programmieraufgaben",
+                        "quiz": "Quizaufgaben",
+                        "modeling": "Modellierungsaufgaben",
+                        "text": "Textaufgaben",
+                        "file-upload": "Dateiupload-Aufgaben"
+                    }
+                }
+            },
+            "students": "Studierende",
+            "participations": "Teilnahmen",
+            "tutors": "Tutor:innen",
+            "editors": "Editor:innen",
+            "instructors": "Lehrende",
+            "student": "Studierende:r",
+            "tutor": "Tutor:in",
+            "editor": "Editor:in",
+            "instructor": "Lehrkraft",
+            "form": {
+                "shortname": {
+                    "minlength": "Der Kurzname muss mindestens 3 Zeichen lang sein.",
+                    "forbidden": "Der Kurzname muss mit einem Buchstaben beginnen und darf keine Sonderzeichen beinhalten."
+                }
+            },
+            "courseDashboard": "Kurs-Dashboard",
+            "instructorDashboard": "Dashboard für Lehrende",
+            "presentationScoreEnabled": {
+                "title": "Präsentationsbewertung aktiviert",
+                "description": "Aktiviere diese Checkbox und definiere, wie viele Präsentationen Studierende halten müssen, um den Notenbonus für die Vorlesung zu erhalten. Nach der Aktivierung kannst du bei der Erstellung jeder Übung definieren, ob dieses Feature dafür aktiviert sein soll."
+            },
+            "presentationScore": "Benötigtes Präsentationsergebnis für den Bonus",
+            "courseGroup": {
+                "outOf": "von",
+                "usersPerPage": "{{number}} Nutzer:innen pro Seite",
+                "showAllUsers": "Alle Nutzer:innen anzeigen",
+                "searchForUsers": "Nutzer:in zu dieser Kursgruppe hinzufügen durch Suchen nach Login oder Namen",
+                "searchNoResults": "Kein:e Nutzer:innen gefunden",
+                "login": "Login",
+                "name": "Name",
+                "email": "E-Mail",
+                "removeFromGroup": {
+                    "modalQuestion": "Soll der Login <strong>{{ title }}</strong> wirklich aus dieser Kursgruppe entfernt werden?"
+                }
+            },
+            "averageScore": "Durchschnittliche Punktzahl",
+            "releasedSoon": "Bald veröffentlicht",
+            "currentWorking": "Derzeitig in Bearbeitung",
+            "inAssessment": "Derzeitig in Bewertung",
+            "pastExercises": "Vergangene Übungen ({{ amount }} von {{ total }})",
+            "noExercises": "Keine aktiven Übungen vorhanden",
+            "assessmentProgress": "Bewertungen",
+            "releaseDate": "Freigabe",
+            "dueDate": "Einreichung",
+            "assessmentDueDate": "Bewertung",
+            "cleanup": {
+                "title": "Aufräumen",
+                "question": "Möchtest du den Kurs <strong>{{title}}</strong> wirklich bereinigen? Dadurch werden alle Studierenden-Repositories für <strong>Übungen</strong> und <strong>Prüfungen</strong> gelöscht. Diese Aktion kann <strong class='text-danger'>NICHT</strong> rückgängig gemacht werden!"
+            },
+            "detail": {
+                "title": "Kurs Details:",
+                "assessmentsTitle": "Insgesamte Bewertungen",
+                "complaintsTitle": "Insgesamte Beschwerden",
+                "moreFeedbackTitle": "Insgesamte Feedbackanfragen",
+                "averageStudentScoreTitle": "Durchschnittliche Punktzahl der Studierenden"
+            },
+            "activeStudents": "Aktive Studierende: {{ students }}"
+        },
+        "courseStatistics": {
+            "statistics": "Statistiken",
+            "course": "Kurs",
+            "courseAverage": "Kursdurchschnitt",
+            "exerciseAverage": "Aufgabendurchschnitt",
+            "amountOfStudents": "# Studierende",
+            "activeStudents": "Aktive Studierende"
+        }
+    }
+}

@@ -1,0 +1,98 @@
+<div *ngIf="isLoading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">{{ 'loading' | artemisTranslate }}</span>
+    </div>
+</div>
+
+<div *ngIf="lecture">
+    <!-- HEADER INFORMATION START -->
+    <div class="course-info-bar">
+        <div class="row">
+            <div class="col general-info">
+                <h3>
+                    <span>{{ lecture!.title }}</span>
+                </h3>
+                <h4>
+                    <span class="me-2" *ngIf="lecture!.startDate && lecture!.endDate">
+                        {{ 'artemisApp.courseOverview.lectureDetails.date' | artemisTranslate }} {{ lecture!.startDate | artemisDate }} -
+                        {{ lecture!.endDate | artemisDate: 'time' }}
+                    </span>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <!-- HEADER INFORMATION END -->
+    <jhi-alert></jhi-alert>
+    <!-- LECTURE START -->
+    <div class="row mt-2">
+        <div class="col pe-0 flex-grow-1">
+            <div class="row mb-2 mt-2 align-items-baseline" *ngIf="lecture!.description">
+                <div class="col-auto">
+                    <h3>{{ 'artemisApp.courseOverview.lectureDetails.description' | artemisTranslate }}</h3>
+                </div>
+            </div>
+            <div class="row mb-2 markdown-preview" *ngIf="lecture!.description">
+                <div class="col-12 col-md-12 markdown-preview" [innerHTML]="lecture.description | htmlForMarkdown"></div>
+            </div>
+            <!-- LECTURE UNITS START-->
+            <div class="row mb-2 mt-2 align-items-baseline" *ngIf="lecture!.lectureUnits">
+                <div class="col-auto">
+                    <h3>{{ 'artemisApp.courseOverview.lectureDetails.lectureUnits' | artemisTranslate }}</h3>
+                </div>
+                <button id="downloadButton" *ngIf="hasPdfLectureUnit" class="col-auto btn btn-primary btn-sm rounded-pill" (click)="downloadMergedFiles()">
+                    {{ 'artemisApp.courseOverview.lectureDetails.downloadPdf' | artemisTranslate }}
+                </button>
+            </div>
+            <div class="row m-0" *ngFor="let lectureUnit of lectureUnits">
+                <div class="col-11" [ngSwitch]="lectureUnit.type">
+                    <jhi-exercise-unit *ngSwitchCase="LectureUnitType.EXERCISE" [exerciseUnit]="lectureUnit" [course]="lecture!.course!"></jhi-exercise-unit>
+                    <jhi-attachment-unit *ngSwitchCase="LectureUnitType.ATTACHMENT" [attachmentUnit]="lectureUnit"></jhi-attachment-unit>
+                    <jhi-video-unit *ngSwitchCase="LectureUnitType.VIDEO" [videoUnit]="lectureUnit"></jhi-video-unit>
+                    <jhi-text-unit *ngSwitchCase="LectureUnitType.TEXT" [textUnit]="lectureUnit"></jhi-text-unit>
+                </div>
+                <div class="col-1 my-auto mx-auto">
+                    <jhi-learning-goals-popover
+                        [hidden]="!lectureUnit.learningGoals || lectureUnit.learningGoals!.length === 0"
+                        [courseId]="lecture!.course!.id!"
+                        [learningGoals]="lectureUnit.learningGoals || []"
+                        [navigateTo]="'courseStatistics'"
+                    ></jhi-learning-goals-popover>
+                </div>
+            </div>
+            <!-- LECTURE UNITS END-->
+            <div class="row mb-2 mt-2 align-items-baseline" *ngIf="lecture!.attachments">
+                <div class="col-auto">
+                    <h3>{{ 'artemisApp.courseOverview.lectureDetails.attachments' | artemisTranslate }}</h3>
+                </div>
+            </div>
+            <div class="mb-2" *ngIf="lecture!.attachments">
+                <ul>
+                    <li class="mb-3" *ngFor="let attachment of lecture!.attachments">
+                        <h5 class="mb-1">
+                            <a class="text-primary" (click)="downloadAttachment(attachment.link)" *ngIf="!isDownloadingLink">
+                                {{ attachment.name }}
+                            </a>
+                            <a class="text-primary" *ngIf="isDownloadingLink === attachment.link">
+                                <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon> {{ 'artemisApp.courseOverview.lectureDetails.isDownloading' | artemisTranslate }}
+                            </a>
+                            <span class="ms-1 badge bg-info">
+                                {{ attachmentExtension(attachment) | uppercase }}
+                            </span>
+                            <span class="ms-1 badge bg-warning" *ngIf="attachmentNotReleased(attachment)">
+                                {{ 'artemisApp.courseOverview.lectureDetails.notReleased' | artemisTranslate }}
+                            </span>
+                        </h5>
+                        <h6 class="text-black-50 mb-0 lecture-attachment-details">
+                            ({{ 'artemisApp.courseOverview.lectureDetails.version' | artemisTranslate }}: {{ attachment.version }} -
+                            {{ 'artemisApp.courseOverview.lectureDetails.date' | artemisTranslate }}: {{ attachment.uploadDate | artemisDate }})
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- LECTURE END -->
+        <div class="col d-flex flex-grow-1 justify-end px-0" style="max-width: min-content">
+            <router-outlet *ngIf="lecture && lecture.course?.postsEnabled" class="ms-3" (activate)="onChildActivate($event)"></router-outlet>
+        </div>
+    </div>
+</div>

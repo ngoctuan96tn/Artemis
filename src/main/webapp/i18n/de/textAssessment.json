@@ -1,0 +1,79 @@
+{
+    "artemisApp": {
+        "textAssessment": {
+            "title": "Bewertungseditor für Textaufgaben",
+            "loading": "Bitte warte, bis Artemis die Abgabe findet!",
+            "heading": {
+                "assessment": "Bewertungseditor der Textaufgabe {{exerciseTitle}}",
+                "exampleAssessment": "Beispiel Bewertungseditor der Textaufgabe {{exerciseTitle}}"
+            },
+            "assessor": "Bewertet von",
+            "save": "Bewertung speichern",
+            "saveSuccessful": "Deine Bewertung wurde erfolgreich gespeichert!",
+            "submit": "Bewertung einreichen",
+            "submitSuccessful": "Deine Bewertung wurde erfolgreich abgesendet!",
+            "override": "Bewertung überschreiben",
+            "resultDismissed": "Deine Bewertung wurde nicht übernommen, da andere Tutor:innen bereits bewertet haben.",
+            "exampleSubmissisonInstruction": "Erstelle eine Beispielabgabe",
+            "error": {
+                "invalidAssessments": "Deine Bewertung ist nicht gültig!",
+                "invalidScoreMustBeNumber": "Das Punkte-Feld muss eine Zahl sein und darf nicht leer sein!",
+                "invalidNeedScoreOrFeedback": "Jedes Feedback-Element muss mindestens eine Punktzahl oder ein Feedback enthalten.",
+                "feedbackReferenceTooLong": "Wähle bitte einen Textabschnitt mit weniger als 2000 Zeichen aus."
+            },
+            "assessInstruction": "Markiere den zu bewertenden Textblock und klicke \"Bewerten\".",
+            "predefineTextBlocks": "Textblöcke automatisch anlegen",
+            "automatic": "Automatisch",
+            "lock": "Diese Abgabe kann jetzt nur noch von dir bearbeitet werden. Bitte bewerte diese Abgabe, bevor du eine neue öffnest.",
+            "submissionLocked": "Abgabe gesperrt",
+            "studentSubmission": "Studentische Abgabe",
+            "instructions": "&nbsp; Aufgabenstellung &nbsp;",
+            "detail": {
+                "feedback": "Feedback",
+                "credits": {
+                    "one": "{{credits}} Punkt",
+                    "many": "{{credits}} Punkte"
+                }
+            },
+            "editor": {
+                "assess": "Bewerten"
+            },
+            "dashboard": {
+                "heading": "Einreichungen und Bewertungen der Textaufgabe \"{{exerciseTitle}}\""
+            },
+            "notFound": "Wir haben keine neue Textvorlage ohne Bewertung gefunden, bitte gehe zurück zum Dashboard.",
+            "updateAfterComplaintSuccessful": "Die Bewertung wurde erfolgreich aktualisiert.",
+            "updateAfterComplaintFailed": "Das Aktualisieren der Bewertung ist fehlgeschlagen.",
+            "cancel": "Bewertung abbrechen",
+            "confirmCancel": "Bist du sicher, dass du die Bewertung abbrechen möchtest? Dein aktueller Bewertungsfortschritt wird gelöscht und die Abgabe steht anderen Tutor:innen wieder zur Verfügung.",
+            "feedbackEditor": {
+                "dismissFeedback": "Soll das Feedback gelöscht werden?",
+                "dismissFeedbackConfirmation": "Bitte bestätige, dass das Feedback gelöscht werden soll!",
+                "impactWarning": "Dieses Feedback kann <strong style=\"color:blue\">{{affectedSubmissionsCount}}</strong> weitere ähnliche Einreichung/en beinflussen.",
+                "impactWarningTooltip": "Die Anzahl, wie oft dein Feedback als automatischer Vorschlag in anderen Einreichungen wiederverwendet wird, die einen ähnlichen Textblock aufweisen.",
+                "automaticFeedbackInformationModal": {
+                    "heading": "Automatische Feedbackverfolgung",
+                    "introduction": "Dieser automatische Vorschlag stammt von einer zuvor bewerteten Vorlage, die unten gezeigt wird. <br/> Das  <span style='background-color: #d8e8f5'>hervorgehobene Feedback</span> wurde wiederverwendet:<br/><br/>",
+                    "trace": "Herkunft des automatischen Feedbacks verfolgen",
+                    "points": "Punkte",
+                    "reused": "{{reusedCount}} mal wiederverwendet"
+                }
+            },
+            "assessmentInstruction": "Bitte bewege die Maus über den zu bewertenden Textblock und klicke diesen an, um ihn zu bewerten.<br>Drücke <code>alt</code>/<code>option</code> und wähle gleichzeitig Text aus, um eigene Textblöcke zu bewerten.",
+            "conflict": {
+                "assessor": "Bewertet von: Dir",
+                "otherAssessor": "Bewertet von: {{otherUser}}",
+                "conflictingAssessments": "{{number}} Konflikte",
+                "discard": "Konflikt verwerfen",
+                "notFound": "Wir haben für das ausgewählte Feedback keine Konflikte gefunden, bitte gehe zurück.",
+                "overrideAssessment": "Linke Bewertung überschreiben",
+                "solveFeedbackConflictSuccessful": "Konflikt erfolgreich gelöst.",
+                "type": {
+                    "INCONSISTENT_COMMENT": "INKONSISTENTER KOMMENTAR",
+                    "INCONSISTENT_SCORE": "INKONSISTENTE PUNKTZAHL",
+                    "INCONSISTENT_FEEDBACK": "INKONSISTENTES FEEDBACK"
+                }
+            }
+        }
+    }
+}

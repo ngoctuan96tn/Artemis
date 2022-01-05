@@ -1,0 +1,506 @@
+<div>
+    <jhi-alert></jhi-alert>
+    <div *ngIf="isLoading" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div *ngIf="!isLoading && studentResults && exerciseGroups">
+        <div class="d-flex">
+            <h2 class="font-weigth-bold" *ngIf="examScoreDTO.title">
+                {{ examScoreDTO.title }}
+            </h2>
+            <button class="ms-auto btn btn-primary btn-sm" (click)="exportToCsv()">
+                <fa-icon [icon]="faDownload" [fixedWidth]="true"></fa-icon>
+                <span jhiTranslate="artemisApp.examScores.exportCSV">&nbsp;Export Results as CSV</span>
+            </button>
+        </div>
+
+        <div class="d-flex mb-1">
+            <h6 *ngIf="examScoreDTO.maxPoints">{{ 'artemisApp.examScores.maxPoints' | artemisTranslate }}: {{ localize(examScoreDTO.maxPoints) }},</h6>
+            <h6 class="ms-2">{{ exerciseGroups.length }} {{ 'artemisApp.examScores.noExerciseGroups' | artemisTranslate }},</h6>
+            <h6 class="ms-2">{{ aggregatedExamResults.noOfRegisteredUsers }} {{ 'artemisApp.examScores.registered' | artemisTranslate }}</h6>
+        </div>
+
+        <div class="mb-2">
+            <h4>
+                <span jhiTranslate="artemisApp.examScores.examStatisticsTitle">Exam Statistics</span>
+            </h4>
+        </div>
+
+        <!-- Filter settings -->
+        <div class="d-flex align-items-center align-content-center mb-2">
+            <label class="radio-inline mb-0 d-flex align-items-center">
+                <input type="checkbox" [checked]="filterForSubmittedExams" (change)="toggleFilterForSubmittedExam()" />
+                <span class="ms-1">{{ 'artemisApp.examScores.filterForSubmittedExams' | artemisTranslate }}</span>
+            </label>
+            <label class="radio-inline ms-2 mb-0 d-flex align-items-center">
+                <input type="checkbox" [checked]="filterForNonEmptySubmissions" (change)="toggleFilterForNonEmptySubmission()" />
+                <span class="ms-1">{{ 'artemisApp.examScores.filterForNonEmptySubmissions' | artemisTranslate }}</span>
+            </label>
+        </div>
+
+        <!-- Exam Point Statistics -->
+        <table class="table table-bordered table-sm table-striped table-clear-width mb-3">
+            <thead *ngIf="hasSecondCorrectionAndStarted" class="table-dark">
+                <tr>
+                    <th></th>
+                    <th *ngIf="gradingScaleExists && !isBonus" colspan="3">
+                        {{ 'artemisApp.examScores.secondCorrectionColumn' | artemisTranslate }}
+                    </th>
+                    <th *ngIf="gradingScaleExists && !isBonus" colspan="3" style="border-left: 3px solid grey">
+                        {{ 'artemisApp.examScores.firstCorrectionColumn' | artemisTranslate }}
+                    </th>
+                    <th *ngIf="!gradingScaleExists || isBonus" colspan="2">
+                        {{ 'artemisApp.examScores.secondCorrectionColumn' | artemisTranslate }}
+                    </th>
+                    <th *ngIf="!gradingScaleExists || isBonus" colspan="2" style="border-left: 3px solid grey">
+                        {{ 'artemisApp.examScores.firstCorrectionColumn' | artemisTranslate }}
+                    </th>
+                </tr>
+            </thead>
+            <thead class="table-dark">
+                <tr>
+                    <th></th>
+                    <th *ngIf="gradingScaleExists && !isBonus">
+                        {{ 'artemisApp.examScores.passedColumn' | artemisTranslate }}
+                    </th>
+                    <th>
+                        {{ 'artemisApp.examScores.submittedColumn' | artemisTranslate }}
+                    </th>
+                    <th>
+                        {{ 'artemisApp.examScores.totalColumn' | artemisTranslate }}
+                    </th>
+                    <th style="border-left: 3px solid grey" *ngIf="hasSecondCorrectionAndStarted && gradingScaleExists && !isBonus">
+                        {{ 'artemisApp.examScores.passedColumn' | artemisTranslate }}
+                    </th>
+                    <th *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="!gradingScaleExists || isBonus ? { 'border-left': '3px solid grey' } : {}">
+                        {{ 'artemisApp.examScores.submittedColumn' | artemisTranslate }}
+                    </th>
+                    <th *ngIf="hasSecondCorrectionAndStarted">
+                        {{ 'artemisApp.examScores.totalColumn' | artemisTranslate }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">{{ 'artemisApp.examScores.noOfExams' | artemisTranslate }}</th>
+                    <td *ngIf="gradingScaleExists && !isBonus">
+                        {{ aggregatedExamResults.noOfExamsFilteredForPassed }} ({{
+                            aggregatedExamResults.noOfRegisteredUsers > 0
+                                ? roundAndPerformLocalConversion((aggregatedExamResults.noOfExamsFilteredForPassed / aggregatedExamResults.noOfRegisteredUsers) * 100)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                    <td>
+                        {{ aggregatedExamResults.noOfExamsFiltered }} ({{
+                            aggregatedExamResults.noOfRegisteredUsers > 0
+                                ? roundAndPerformLocalConversion((aggregatedExamResults.noOfExamsFiltered / aggregatedExamResults.noOfRegisteredUsers) * 100)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                    <td>{{ aggregatedExamResults.noOfRegisteredUsers }}</td>
+                    <td *ngIf="hasSecondCorrectionAndStarted && gradingScaleExists && !isBonus" style="border-left: 3px solid lightgrey"></td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="!gradingScaleExists || isBonus ? { 'border-left': '3px solid lightgrey' } : {}"></td>
+                    <td *ngIf="hasSecondCorrectionAndStarted"></td>
+                </tr>
+                <tr>
+                    <th scope="row">{{ 'artemisApp.examScores.averagePointsColumn' | artemisTranslate }}</th>
+                    <td *ngIf="gradingScaleExists && !isBonus">
+                        {{ aggregatedExamResults.meanPointsPassed !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsPassed) : '-' }}
+                        ({{ aggregatedExamResults.meanPointsRelativePassed !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsRelativePassed) : '-' }}
+                        %)
+                    </td>
+                    <td>
+                        {{ aggregatedExamResults.meanPoints !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPoints) : '-' }}
+                        ({{ aggregatedExamResults.meanPointsRelative !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsRelative) : '-' }}
+                        %)
+                    </td>
+                    <td>
+                        {{ aggregatedExamResults.meanPointsTotal !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsTotal) : '-' }}
+                        ({{ aggregatedExamResults.meanPointsRelativeTotal !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsRelativeTotal) : '-' }}
+                        %)
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted && gradingScaleExists && !isBonus" style="border-left: 3px solid lightgrey">
+                        {{
+                            aggregatedExamResults.meanPointsPassedInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsPassedInFirstCorrection)
+                                : '-'
+                        }}
+                        ({{
+                            aggregatedExamResults.meanPointsRelativePassedInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsRelativePassedInFirstCorrection)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="!gradingScaleExists || isBonus ? { 'border-left': '3px solid lightgrey' } : {}">
+                        {{ aggregatedExamResults.meanPointsInFirstCorrection !== null ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsInFirstCorrection) : '-' }}
+                        ({{
+                            aggregatedExamResults.meanPointsRelativeInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsRelativeInFirstCorrection)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted">
+                        {{
+                            aggregatedExamResults.meanPointsTotalInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsTotalInFirstCorrection)
+                                : '-'
+                        }}
+                        ({{
+                            aggregatedExamResults.meanPointsRelativeTotalInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.meanPointsRelativeTotalInFirstCorrection)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                </tr>
+                <tr *ngIf="gradingScaleExists">
+                    <th scope="row">
+                        {{ isBonus ? ('artemisApp.examScores.averageBonusColumn' | artemisTranslate) : ('artemisApp.examScores.averageGradeColumn' | artemisTranslate) }}
+                    </th>
+                    <td *ngIf="!isBonus">{{ aggregatedExamResults.meanGradePassed !== null ? aggregatedExamResults.meanGradePassed : '-' }}</td>
+                    <td>{{ aggregatedExamResults.meanGrade !== null ? aggregatedExamResults.meanGrade : '-' }}</td>
+                    <td>{{ aggregatedExamResults.meanGradeTotal !== null ? aggregatedExamResults.meanGradeTotal : '-' }}</td>
+                    <td *ngIf="hasSecondCorrectionAndStarted && !isBonus" style="border-left: 3px solid lightgrey">
+                        {{ aggregatedExamResults.meanGradePassedInFirstCorrection !== null ? aggregatedExamResults.meanGradePassedInFirstCorrection : '-' }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="isBonus ? { 'border-left': '3px solid lightgrey' } : {}">
+                        {{ aggregatedExamResults.meanGradeInFirstCorrection !== null ? aggregatedExamResults.meanGradeInFirstCorrection : '-' }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted">
+                        {{ aggregatedExamResults.meanGradeTotalInFirstCorrection !== null ? aggregatedExamResults.meanGradeTotalInFirstCorrection : '-' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">{{ 'artemisApp.examScores.medianColumn' | artemisTranslate }}</th>
+                    <td *ngIf="gradingScaleExists && !isBonus">
+                        {{ aggregatedExamResults.medianPassed !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianPassed) : '-' }}
+                        ({{ aggregatedExamResults.medianRelativePassed !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianRelativePassed) : '-' }}
+                        %)
+                    </td>
+                    <td>
+                        {{ aggregatedExamResults.median !== null ? roundAndPerformLocalConversion(aggregatedExamResults.median) : '-' }}
+                        ({{ aggregatedExamResults.medianRelative !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianRelative) : '-' }}
+                        %)
+                    </td>
+                    <td>
+                        {{ aggregatedExamResults.medianTotal !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianTotal) : '-' }}
+                        ({{ aggregatedExamResults.medianRelativeTotal !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianRelativeTotal) : '-' }}
+                        %)
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted && gradingScaleExists && !isBonus" style="border-left: 3px solid lightgrey">
+                        {{
+                            aggregatedExamResults.medianPassedInFirstCorrection !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianPassedInFirstCorrection) : '-'
+                        }}
+                        ({{
+                            aggregatedExamResults.medianRelativePassedInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.medianRelativePassedInFirstCorrection)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="!gradingScaleExists || isBonus ? { 'border-left': '3px solid lightgrey' } : {}">
+                        {{ aggregatedExamResults.medianInFirstCorrection !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianInFirstCorrection) : '-' }}
+                        ({{
+                            aggregatedExamResults.medianRelativeInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.medianRelativeInFirstCorrection)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted">
+                        {{ aggregatedExamResults.medianTotalInFirstCorrection !== null ? roundAndPerformLocalConversion(aggregatedExamResults.medianTotalInFirstCorrection) : '-' }}
+                        ({{
+                            aggregatedExamResults.medianRelativeTotalInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.medianRelativeTotalInFirstCorrection)
+                                : '-'
+                        }}
+                        %)
+                    </td>
+                </tr>
+                <tr *ngIf="gradingScaleExists">
+                    <th scope="row">
+                        {{ isBonus ? ('artemisApp.examScores.medianBonusColumn' | artemisTranslate) : ('artemisApp.examScores.medianGradeColumn' | artemisTranslate) }}
+                    </th>
+                    <td *ngIf="!isBonus">{{ aggregatedExamResults.medianGradePassed !== null ? aggregatedExamResults.medianGradePassed : '-' }}</td>
+                    <td>{{ aggregatedExamResults.medianGrade !== null ? aggregatedExamResults.medianGrade : '-' }}</td>
+                    <td>{{ aggregatedExamResults.medianGradeTotal !== null ? aggregatedExamResults.medianGradeTotal : '-' }}</td>
+                    <td *ngIf="!isBonus && hasSecondCorrectionAndStarted" style="border-left: 3px solid lightgrey">
+                        >{{ aggregatedExamResults.medianGradePassedInFirstCorrection !== null ? aggregatedExamResults.medianGradePassedInFirstCorrection : '-' }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="isBonus ? { 'border-left': '3px solid lightgrey' } : {}">
+                        {{ aggregatedExamResults.medianGradeInFirstCorrection !== null ? aggregatedExamResults.medianGradeInFirstCorrection : '-' }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted">
+                        {{ aggregatedExamResults.medianGradeTotalInFirstCorrection !== null ? aggregatedExamResults.medianGradeTotalInFirstCorrection : '-' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">{{ 'artemisApp.examScores.standardDeviationColumn' | artemisTranslate }}</th>
+                    <td *ngIf="gradingScaleExists && !isBonus">
+                        {{ aggregatedExamResults.standardDeviationPassed !== null ? roundAndPerformLocalConversion(aggregatedExamResults.standardDeviationPassed) : '-' }}
+                    </td>
+                    <td>{{ aggregatedExamResults.standardDeviation !== null ? roundAndPerformLocalConversion(aggregatedExamResults.standardDeviation) : '-' }}</td>
+                    <td>{{ aggregatedExamResults.standardDeviationTotal !== null ? roundAndPerformLocalConversion(aggregatedExamResults.standardDeviationTotal) : '-' }}</td>
+                    <td *ngIf="hasSecondCorrectionAndStarted && gradingScaleExists && !isBonus" style="border-left: 3px solid lightgrey">
+                        {{
+                            aggregatedExamResults.standardDeviationPassedInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.standardDeviationPassedInFirstCorrection)
+                                : '-'
+                        }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="!gradingScaleExists || isBonus ? { 'border-left': '3px solid lightgrey' } : {}">
+                        {{
+                            aggregatedExamResults.standardDeviationInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.standardDeviationInFirstCorrection)
+                                : '-'
+                        }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted">
+                        {{
+                            aggregatedExamResults.standardDeviationTotalInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.standardDeviationTotalInFirstCorrection)
+                                : '-'
+                        }}
+                    </td>
+                </tr>
+                <tr *ngIf="gradingScaleExists && hasNumericGrades">
+                    <th scope="row">{{ 'artemisApp.examScores.standardGradeDeviationColumn' | artemisTranslate }}</th>
+                    <td *ngIf="!isBonus">
+                        {{ aggregatedExamResults.standardGradeDeviationPassed !== null ? roundAndPerformLocalConversion(aggregatedExamResults.standardGradeDeviationPassed) : '-' }}
+                    </td>
+                    <td>{{ aggregatedExamResults.standardGradeDeviation !== null ? roundAndPerformLocalConversion(aggregatedExamResults.standardGradeDeviation) : '-' }}</td>
+                    <td>
+                        {{ aggregatedExamResults.standardGradeDeviationTotal !== null ? roundAndPerformLocalConversion(aggregatedExamResults.standardGradeDeviationTotal) : '-' }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted && !isBonus" style="border-left: 3px solid lightgrey">
+                        {{
+                            aggregatedExamResults.standardGradeDeviationPassedInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.standardGradeDeviationPassedInFirstCorrection)
+                                : '-'
+                        }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted" [ngStyle]="isBonus ? { 'border-left': '3px solid lightgrey' } : {}">
+                        {{
+                            aggregatedExamResults.standardGradeDeviationInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.standardGradeDeviationInFirstCorrection)
+                                : '-'
+                        }}
+                    </td>
+                    <td *ngIf="hasSecondCorrectionAndStarted">
+                        {{
+                            aggregatedExamResults.standardGradeDeviationTotalInFirstCorrection !== null
+                                ? roundAndPerformLocalConversion(aggregatedExamResults.standardGradeDeviationTotalInFirstCorrection)
+                                : '-'
+                        }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div #containerRef class="d-block">
+            <!-- Histogram -->
+            <ngx-charts-bar-vertical
+                [view]="[containerRef.offsetWidth, 400]"
+                [results]="ngxData"
+                [scheme]="ngxColor"
+                [yAxis]="true"
+                [xAxis]="true"
+                [yAxisLabel]="yAxisLabel"
+                [showYAxisLabel]="true"
+                [xAxisLabel]="xAxisLabel"
+                [showXAxisLabel]="true"
+                [yScaleMax]="yScaleMax"
+                [dataLabelFormatting]="dataLabelFormatting"
+                [showDataLabel]="true"
+            >
+                <ng-template #tooltipTemplate let-model="model">
+                    <b>{{ model.name }}</b
+                    ><br />
+                    <span>{{ 'statistics.amountOfStudents' | artemisTranslate }}: {{ model.value }}</span>
+                </ng-template>
+            </ngx-charts-bar-vertical>
+        </div>
+
+        <!-- Exercise Statistics -->
+        <div *ngIf="aggregatedExerciseGroupResults">
+            <h4 class="mt-3">
+                <span jhiTranslate="artemisApp.examScores.ExerciseGroupsTitle">Exercise groups statistics</span>
+            </h4>
+            <div class="col mb-3">
+                <div *ngFor="let exerciseGroup of aggregatedExerciseGroupResults">
+                    <jhi-exam-scores-average-scores-graph [averageScores]="exerciseGroup"></jhi-exam-scores-average-scores-graph>
+                </div>
+            </div>
+
+            <!-- Exercise Statistics Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm body-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>
+                                {{ 'artemisApp.examScores.titleExerciseGroupColumn' | artemisTranslate }}
+                            </th>
+                            <th>
+                                {{ 'artemisApp.examScores.participantsColumn' | artemisTranslate }}
+                                <jhi-help-icon placement="top" text="artemisApp.examScores.participantsExerciseGroupTooltip"></jhi-help-icon>
+                            </th>
+                            <th>
+                                {{ 'artemisApp.examScores.averagePointsColumn' | artemisTranslate }}
+                                <jhi-help-icon placement="top" text="artemisApp.examScores.averageExerciseGroupTooltip"></jhi-help-icon>
+                            </th>
+                            <th *ngIf="gradingScaleExists">
+                                {{ isBonus ? ('artemisApp.examScores.averageBonusColumn' | artemisTranslate) : ('artemisApp.examScores.averageGradeColumn' | artemisTranslate) }}
+                            </th>
+                            <th>
+                                {{ 'artemisApp.examScores.titleExerciseColumn' | artemisTranslate }}
+                            </th>
+                            <th>
+                                {{ 'artemisApp.examScores.participantsColumn' | artemisTranslate }}
+                                <jhi-help-icon placement="top" text="artemisApp.examScores.participantsExerciseTooltip"></jhi-help-icon>
+                            </th>
+                            <th>
+                                {{ 'artemisApp.examScores.averagePointsColumn' | artemisTranslate }}
+                                <jhi-help-icon placement="top" text="artemisApp.examScores.averageExerciseTooltip"></jhi-help-icon>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let exerciseGroupResult of aggregatedExerciseGroupResults; let i = index">
+                        <tr *ngFor="let exerciseResult of exerciseGroupResult.exerciseResults; first as isFirst">
+                            <td *ngIf="isFirst" [rowSpan]="exerciseGroupResult.exerciseResults.length">
+                                {{ i + 1 }}
+                            </td>
+                            <td *ngIf="isFirst" [rowSpan]="exerciseGroupResult.exerciseResults.length">
+                                {{ exerciseGroupResult.title }}
+                            </td>
+                            <td *ngIf="isFirst" [rowSpan]="exerciseGroupResult.exerciseResults.length">
+                                {{ exerciseGroupResult.noOfParticipantsWithFilter }}
+                                / {{ exerciseGroupResult.totalParticipants }} ({{
+                                    roundAndPerformLocalConversion((exerciseGroupResult.noOfParticipantsWithFilter / exerciseGroupResult.totalParticipants) * 100)
+                                }}
+                                %)
+                            </td>
+                            <td *ngIf="isFirst" [rowSpan]="exerciseGroupResult.exerciseResults.length">
+                                {{ exerciseGroupResult.averagePoints !== null ? roundAndPerformLocalConversion(exerciseGroupResult.averagePoints) : '-' }}
+                                /
+                                {{ localize(exerciseGroupResult.maxPoints) }}
+                                ({{ exerciseGroupResult.averagePercentage !== null ? roundAndPerformLocalConversion(exerciseGroupResult.averagePercentage) : '-' }}
+                                %)
+                            </td>
+                            <td *ngIf="gradingScaleExists && isFirst" [rowSpan]="exerciseGroupResult.exerciseResults.length">
+                                {{ exerciseGroupResult.averageGrade !== null ? exerciseGroupResult.averageGrade : '-' }}
+                            </td>
+                            <td>{{ exerciseResult.title }}</td>
+                            <td>
+                                {{ exerciseResult.noOfParticipantsWithFilter }} / {{ exerciseResult.totalParticipants }} ({{
+                                    roundAndPerformLocalConversion((exerciseResult.noOfParticipantsWithFilter / exerciseResult.totalParticipants) * 100)
+                                }}
+                                %)
+                            </td>
+                            <td>
+                                {{ exerciseResult.averagePoints !== null ? roundAndPerformLocalConversion(exerciseResult.averagePoints) : '-' }}
+                                /
+                                {{ localize(exerciseResult.maxPoints) }}
+                                ({{ exerciseResult.averagePercentage !== null ? roundAndPerformLocalConversion(exerciseResult.averagePercentage) : '-' }}
+                                %)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Student Result Table -->
+        <h4>
+            <span jhiTranslate="artemisApp.examScores.studentResultsTitle">Student Results</span>
+        </h4>
+        <div class="table-responsive">
+            <table class="table table-sm table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" (sortChange)="sortRows()">
+                        <th>#</th>
+                        <th jhiSortBy="name">
+                            <span jhiTranslate="artemisApp.examScores.nameColumn">Name</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="login">
+                            <span jhiTranslate="artemisApp.examScores.loginColumn">Login</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="eMail">
+                            <span jhiTranslate="artemisApp.examScores.eMailColumn">E-Mail</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+                        <th jhiSortBy="registrationNumber">
+                            <span jhiTranslate="artemisApp.examScores.registrationNumberColumn">Matriculation Number</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+                        <ng-container *ngFor="let exerciseGroup of examScoreDTO.exerciseGroups">
+                            <th [jhiSortBy]="'exerciseGroupIdToExerciseResult.' + exerciseGroup.id + '.achievedPoints'">
+                                <span>{{ exerciseGroup.title }}</span>
+                                <fa-icon [icon]="faSort"></fa-icon>
+                            </th>
+                        </ng-container>
+                        <th jhiSortBy="overallPointsAchieved">
+                            <span jhiTranslate="artemisApp.examScores.overallPointsColumn">Overall Points</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+
+                        <th jhiSortBy="overallScoreAchieved">
+                            <span jhiTranslate="artemisApp.examScores.overallScoreColumn">Overall Score (%)</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+                        <th *ngIf="gradingScaleExists" jhiSortBy="overallScoreAchieved">
+                            <span>{{
+                                isBonus ? ('artemisApp.examScores.overallBonusColumn' | artemisTranslate) : ('artemisApp.examScores.overallGradeColumn' | artemisTranslate)
+                            }}</span>
+                            <fa-icon [icon]="faSort"></fa-icon>
+                        </th>
+                        <th *ngIf="gradingScaleExists && !isBonus">{{ 'artemisApp.examScores.passedColumn' | artemisTranslate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let studentResult of studentResults; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ studentResult.name }}</td>
+                        <td>{{ studentResult.login }}</td>
+                        <td>{{ studentResult.eMail ? studentResult.eMail : '-' }}</td>
+                        <td>{{ studentResult.registrationNumber ? studentResult.registrationNumber : '-' }}</td>
+                        <ng-container *ngFor="let exerciseGroup of examScoreDTO.exerciseGroups">
+                            <td *ngIf="studentResult.exerciseGroupIdToExerciseResult && studentResult.exerciseGroupIdToExerciseResult[exerciseGroup.id]; else empty">
+                                {{ studentResult.exerciseGroupIdToExerciseResult[exerciseGroup.id].title }}
+                                :
+                                {{ roundAndPerformLocalConversion(studentResult.exerciseGroupIdToExerciseResult[exerciseGroup.id].achievedPoints) }}
+
+                                (
+                                {{ roundAndPerformLocalConversion(studentResult.exerciseGroupIdToExerciseResult[exerciseGroup.id].achievedScore) }}
+                                %)
+                            </td>
+                            <ng-template #empty>
+                                <td>-</td>
+                            </ng-template>
+                        </ng-container>
+                        <td>{{ roundAndPerformLocalConversion(studentResult.overallPointsAchieved) }}</td>
+                        <td>{{ roundAndPerformLocalConversion(studentResult.overallScoreAchieved) }}</td>
+                        <td *ngIf="gradingScaleExists">
+                            {{ studentResult.overallGrade !== null ? studentResult.overallGrade : '-' }}
+                        </td>
+                        <td *ngIf="gradingScaleExists && !isBonus && studentResult.overallGrade && studentResult.hasPassed" style="text-align: center">
+                            <fa-icon [icon]="faCheckCircle" style="color: #28a745; font-size: 1.5em"></fa-icon>
+                        </td>
+                        <td *ngIf="gradingScaleExists && !isBonus && studentResult.overallGrade && !studentResult.hasPassed" style="text-align: center">
+                            <fa-icon [icon]="faTimes" style="color: #ca2024; font-size: 1.5em"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="page-wrapper">
+    <jhi-page-ribbon></jhi-page-ribbon>
+    <div>
+        <router-outlet name="navbar"></router-outlet>
+    </div>
+    <div class="container-fluid main-container">
+        <jhi-system-notification></jhi-system-notification>
+        <jhi-connection-notification></jhi-connection-notification>
+        <div class="card">
+            <div class="card-body">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+    <jhi-notification-popup></jhi-notification-popup>
+    <jhi-footer></jhi-footer>
+</div>

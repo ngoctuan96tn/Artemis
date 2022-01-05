@@ -1,0 +1,70 @@
+@import 'src/main/webapp/content/scss/artemis-variables';
+
+$border-color: #979797;
+
+.test-case--inactive {
+    color: grey;
+}
+
+.run-after-due-date-disabled {
+    max-width: 200px;
+}
+
+.top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px 0;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-color;
+
+    .tab-item {
+        cursor: pointer;
+        margin: 0 0.5em;
+
+        &.active {
+            box-shadow: 0 2px 0 $artemis-dark;
+        }
+    }
+}
+
+.grading-table-layout {
+    display: flex;
+    flex-flow: row;
+
+    & > div {
+        padding: 20px;
+        flex-shrink: 0;
+        flex-grow: 1;
+    }
+
+    & > div:first-child {
+        flex-basis: 800px;
+    }
+
+    & > div:last-child {
+        border-left: 1px solid #ddd;
+        flex-basis: 400px;
+    }
+}
+
+.datatable-header-cell-wrapper {
+    display: flex;
+    align-items: center;
+
+    .datatable-header-cell-label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 2px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .grading-table-layout {
+        flex-flow: column;
+
+        & > div {
+            flex-basis: auto;
+        }
+    }
+}

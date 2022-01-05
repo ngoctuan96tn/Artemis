@@ -1,0 +1,13 @@
+<button
+    class="btn"
+    [jhiFeatureToggle]="featureToggle"
+    [overwriteDisabled]="buttonLoading"
+    [class.btn-outline-primary]="outlined"
+    [class.btn-primary]="btnPrimary"
+    [class.btn-sm]="smallButton"
+    (click)="handleClick()"
+>
+    <fa-icon [hidden]="!buttonLoading" [spin]="true" [icon]="faCircleNotch"></fa-icon>
+    <span *ngIf="!buttonLoading" class="intellij-logo"></span>
+    <span>{{ buttonLabel }}</span>
+</button>

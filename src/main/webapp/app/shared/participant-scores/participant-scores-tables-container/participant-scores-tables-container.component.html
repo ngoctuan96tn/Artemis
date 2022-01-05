@@ -1,0 +1,34 @@
+<button class="btn btn-info mb-2" (click)="reload.emit()">{{ 'global.form.refresh' | artemisTranslate }}</button>
+<div class="btn-group btn-group-toggle mb-2" ngbRadioGroup name="radioBasic" [(ngModel)]="mode">
+    <label ngbButtonLabel class="btn-primary"> <input ngbButton type="radio" [value]="'individual'" /> {{ 'artemisApp.participantScores.individual' | artemisTranslate }} </label>
+    <label ngbButtonLabel class="btn-primary"> <input ngbButton type="radio" [value]="'average'" /> {{ 'artemisApp.participantScores.average' | artemisTranslate }} </label>
+</div>
+
+<ng-template #tipContent>{{ 'artemisApp.participantScores.notIncluded' | artemisTranslate }}</ng-template>
+<span class="badge rounded-pill bg-primary text-white" [ngbTooltip]="tipContent"
+    >{{ 'artemisApp.participantScores.averageScore' | artemisTranslate: { avg: roundScoreSpecifiedByCourseSettings(avgScore, course) } }}
+</span>
+
+<span class="badge rounded-pill bg-primary text-white" [ngbTooltip]="tipContent"
+    >{{ 'artemisApp.participantScores.averageRatedScore' | artemisTranslate: { avg: roundScoreSpecifiedByCourseSettings(avgRatedScore, course) } }}
+</span>
+
+<span *ngIf="avgGrade" class="badge rounded-pill bg-primary text-white" [ngbTooltip]="tipContent">
+    {{ isBonus ? ('artemisApp.participantScores.averageBonus' | artemisTranslate) : ('artemisApp.participantScores.averageGrade' | artemisTranslate) }}: {{ avgGrade }}
+</span>
+
+<span *ngIf="avgRatedGrade" class="badge rounded-pill bg-primary text-white" [ngbTooltip]="tipContent">
+    {{ isBonus ? ('artemisApp.participantScores.averageRatedBonus' | artemisTranslate) : ('artemisApp.participantScores.averageRatedGrade' | artemisTranslate) }}:
+    {{ avgRatedGrade }}
+</span>
+
+<div [ngSwitch]="mode">
+    <jhi-participant-scores-table *ngSwitchCase="'individual'" [isLoading]="isLoading" [participantScores]="participantScores" [course]="course"></jhi-participant-scores-table>
+    <jhi-participant-scores-average-table
+        *ngSwitchCase="'average'"
+        [isLoading]="isLoading"
+        [participantAverageScores]="participantScoresAverage"
+        [isBonus]="isBonus"
+        [course]="course"
+    ></jhi-participant-scores-average-table>
+</div>

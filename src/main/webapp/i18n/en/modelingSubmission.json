@@ -1,0 +1,33 @@
+{
+    "artemisApp": {
+        "modelingSubmission": {
+            "home": {
+                "title": "Modelling Submissions",
+                "createLabel": "Create a new Modelling Submission",
+                "createOrEditLabel": "Create or edit a Modelling Submission"
+            },
+            "created": "Created new Modelling Submission with identifier {{ param }}",
+            "updated": "Updated Modelling Submission with identifier {{ param }}",
+            "deleted": "Deleted Modelling Submission with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Modelling Submission {{ id }}?"
+            },
+            "detail": {
+                "title": "Modelling Submission"
+            },
+            "view": "View assessment",
+            "model": "Model",
+            "explanationText": "Explanation",
+            "modelingEditor": "Modelling Editor",
+            "problemStatement": "Problem statement",
+            "maxScore": "<strong>Max. Points: {{maxScore}}</strong>",
+            "assessment": {
+                "title": "Assessment",
+                "noAssessment": "There is no assessment available yet.",
+                "instructions": "Select elements in the editor to filter the assessment.",
+                "element": "Element",
+                "score": "Points"
+            }
+        }
+    }
+}

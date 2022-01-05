@@ -1,0 +1,50 @@
+{
+    "artemisApp": {
+        "multipleChoiceQuestion": {
+            "home": {
+                "title": "Multiple Choice Questions",
+                "createLabel": "Create a new Multiple Choice Question",
+                "createOrEditLabel": "Create or edit a Multiple Choice Question"
+            },
+            "created": "Created new Multiple Choice Question with identifier {{ param }}",
+            "updated": "Updated Multiple Choice Question with identifier {{ param }}",
+            "deleted": "Deleted Multiple Choice Question with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Multiple Choice Question {{ id }}?"
+            },
+            "detail": {
+                "title": "Multiple Choice Question"
+            },
+            "answerOptions": "Answer Options",
+            "randomizeOrder": "Present Answer Options in Random Order",
+            "scoringType": "Type / Scoring",
+            "answer": "Answer",
+            "solution": "Solution",
+            "you": "You",
+            "correct": "Correct",
+            "wrong": "Wrong",
+            "invalid": "Invalid answers will be assessed as correct.",
+            "editor": {
+                "addCorrectAnswerOption": "[correct] Correct Option",
+                "addInCorrectAnswerOption": "[wrong] Incorrect Option",
+                "addHint": "[hint] Hint",
+                "addExplanation": "[exp] Explanation",
+                "bold": "Bold",
+                "italic": "Italic",
+                "underline": "Underline",
+                "unorderedList": "Unordered List",
+                "headingOne": "Heading One",
+                "headingTwo": "Heading Two",
+                "headingThree": "Heading Three",
+                "quote": "Quote",
+                "link": "Link",
+                "orderedList": "Ordered List",
+                "imageUpload": "Attachment",
+                "codeBlock": "Code Block",
+                "code": "Code",
+                "color": "Color",
+                "style": "Style"
+            }
+        }
+    }
+}

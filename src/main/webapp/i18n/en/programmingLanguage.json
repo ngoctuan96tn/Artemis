@@ -1,0 +1,18 @@
+{
+    "artemisApp": {
+        "ProgrammingLanguage": {
+            "undefined": "",
+            "null": "",
+            "JAVA": "Java",
+            "PYTHON": "Python",
+            "C": "C",
+            "HASKELL": "Haskell",
+            "KOTLIN": "Kotlin",
+            "VHDL": "VHDL",
+            "ASSEMBLER": "Assembler",
+            "SWIFT": "Swift",
+            "OCAML": "OCaml",
+            "EMPTY": "Empty"
+        }
+    }
+}

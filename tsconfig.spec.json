@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "types": ["jest", "node"],
+        "allowJs": true,
+        "outDir": "build/www/app",
+        "baseUrl": ".",
+        "paths": {
+            "@angular/*": ["node_modules/@angular/*"],
+            "app/*": ["src/main/webapp/app/*"]
+        }
+    },
+    "files": ["src/test/javascript/spec/jest-test-setup.ts"],
+    "include": ["src/test/javascript", "src/main/webapp/app"],
+    "exclude": ["node_modules"]
+}

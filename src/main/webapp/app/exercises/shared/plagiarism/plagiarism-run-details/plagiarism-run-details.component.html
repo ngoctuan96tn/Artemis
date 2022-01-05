@@ -1,0 +1,28 @@
+<div class="plagiarism-run-details">
+    <div class="plagiarism-run-details-item">
+        <div class="plagiarism-run-details-label">
+            {{ 'artemisApp.plagiarism.duration' | artemisTranslate }}
+        </div>
+        <div class="plagiarism-run-details-info">
+            {{ plagiarismResult.duration | date: 'HH:mm:ss.SSS':'GMT' }}
+        </div>
+    </div>
+
+    <div class="plagiarism-run-details-item">
+        <div class="plagiarism-run-details-label">
+            {{ 'artemisApp.plagiarism.similarityDistribution' | artemisTranslate }}
+        </div>
+        <div #containerRef class="plagiarism-run-details-info">
+            <ngx-charts-bar-vertical
+                [view]="[containerRef.offsetWidth, 400]"
+                [scheme]="ngxColor"
+                [results]="ngxData"
+                [xAxis]="true"
+                [yAxis]="true"
+                [yAxisTickFormatting]="yAxisTickFormatting"
+                [yAxisTicks]="yAxisTicks"
+            >
+            </ngx-charts-bar-vertical>
+        </div>
+    </div>
+</div>

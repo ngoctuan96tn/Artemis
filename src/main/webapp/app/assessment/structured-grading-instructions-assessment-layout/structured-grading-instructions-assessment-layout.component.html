@@ -1,0 +1,33 @@
+<div *ngIf="allowDrop" class="alert alert-info">
+    <fa-icon [icon]="faInfoCircle"></fa-icon>
+    <span>{{ 'artemisApp.exercise.dragDropInstruction' | artemisTranslate }}</span>
+</div>
+<div *ngFor="let criterion of criteria; let criterionIndex = index">
+    <jhi-expandable-section [hasTranslation]="false" [headerKey]="criterion.title" [isSubHeader]="true">
+        <div
+            class="rounded"
+            *ngFor="let instruction of criterion!.structuredGradingInstructions; let instructionIndex = index"
+            draggable="{{ allowDrop }}"
+            (dragstart)="disableDrag()"
+            (dragstart)="drag($event, instruction)"
+            id="criterion-{{ criterionIndex }}-instruction-{{ instructionIndex }}"
+            [style.background-color]="setInstrColour(instruction)"
+        >
+            <table class="table layout-table">
+                <tbody>
+                    <tr>
+                        <td [innerHTML]="setScore(instruction.credits)" class="td-score"></td>
+                        <td [innerHTML]="instruction!.gradingScale! | htmlForMarkdown"></td>
+                        <td [innerHTML]="instruction!.instructionDescription! | htmlForMarkdown" [ngbTooltip]="setTooltip(instruction)"></td>
+                        <td class="td-usage-count">
+                            <span *ngIf="instruction!.usageCount && instruction!.usageCount !== 0; else usageCountInfinity">{{ instruction.usageCount }}</span>
+                            <ng-template #usageCountInfinity>&#8734;</ng-template>
+                            <jhi-help-icon placement="top" text="artemisApp.exercise.usageCountHint"></jhi-help-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </jhi-expandable-section>
+    <br />
+</div>

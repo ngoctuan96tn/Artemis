@@ -1,0 +1,40 @@
+@import 'src/main/webapp/app/overview/overview-vars';
+
+.exam-container {
+    cursor: pointer;
+    transition: box-shadow 0.1s linear;
+    border: 1px solid $blue-border-color;
+    background-color: $light-background-color;
+    border-radius: 3px;
+}
+.exam-container:hover {
+    box-shadow: 0 2px 4px 0 #3e8acc;
+}
+
+.liveQuiz-modal {
+    display: block;
+    opacity: 1;
+}
+
+.col-12 {
+    width: 100% !important;
+}
+
+@media screen and (min-width: 992px) {
+    .col-lg-6 {
+        width: 50% !important;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .col-xl-4 {
+        width: 33.33% !important;
+    }
+}
+
+@media screen and (min-width: 1900px) {
+    .col-xl-4 {
+        flex: 0 0 25;
+        width: 25% !important;
+    }
+}

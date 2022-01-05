@@ -1,0 +1,34 @@
+<div class="row mb-5">
+    <div class="col-md-2 d-flex">
+        <div class="row flex-grow-1">
+            <div class="col-md-8 d-flex flex-column">
+                <h3>{{ 'artemisApp.course.averageScore' | artemisTranslate }}</h3>
+                <h4>{{ 'artemisApp.courseStatistics.courseAverage' | artemisTranslate }}: {{ courseAverage }}%</h4>
+            </div>
+            <fa-icon
+                *ngIf="exerciseAverageScores.length > 10 && currentPeriod > 0"
+                [icon]="faArrowLeft"
+                size="3x"
+                class="col-md-4 d-flex justify-content-end align-items-center"
+                role="button"
+                (click)="switchTimeSpan(LEFT)"
+            ></fa-icon>
+        </div>
+    </div>
+    <div #containerRef class="col-md-9">
+        <ngx-charts-bar-vertical [view]="[containerRef.offsetWidth, 250]" [results]="ngxData" [scheme]="ngxColor" [yScaleMax]="100" [xAxis]="true" [yAxis]="true">
+            <ng-template #tooltipTemplate let-model="model">
+                <b>{{ model.name }}</b> <br />
+                <span>{{ 'artemisApp.courseStatistics.exerciseAverage' | artemisTranslate }}: {{ model.value }}%</span>
+            </ng-template>
+        </ngx-charts-bar-vertical>
+    </div>
+    <fa-icon
+        *ngIf="exerciseAverageScores.length > 10 && exerciseAverageScores[10 + currentPeriod] != null"
+        [icon]="faArrowRight"
+        size="3x"
+        class="col-md-1 d-flex justify-content-start align-items-center"
+        role="button"
+        (click)="switchTimeSpan(RIGHT)"
+    ></fa-icon>
+</div>

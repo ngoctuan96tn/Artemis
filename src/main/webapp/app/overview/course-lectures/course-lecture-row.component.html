@@ -1,0 +1,33 @@
+<div class="row align-items-center mb-2 mt-2 position-relative">
+    <a *ngIf="course && lecture" class="stretched-link" [routerLink]="['/courses', course.id!, 'lectures', lecture.id!]"></a>
+    <div class="col-auto d-none d-sm-block">
+        <div class="exercise-row-icon">
+            <fa-icon
+                [icon]="faChalkboardTeacher"
+                size="2x"
+                placement="right"
+                [ngbTooltip]="'artemisApp.courseOverview.lectureList.isLecture' | artemisTranslate"
+                container="body"
+            ></fa-icon>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-auto d-sm-none">
+                <h4><fa-icon [icon]="faChalkboardTeacher"></fa-icon></h4>
+            </div>
+            <div class="col-sm col">
+                <h4>{{ lecture?.title }}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto mb-2" *ngIf="lecture?.startDate; else noDate" [ngClass]="getUrgentClass(lecture.startDate)">
+                <span class="d-none d-sm-inline"> {{ lecture.startDate | artemisDate: 'long-date' }} </span>
+                ({{ lecture.startDate | artemisTimeAgo }})
+            </div>
+            <ng-template #noDate>
+                <div class="col-auto mb-2">{{ 'artemisApp.courseOverview.exerciseList.noDueDate' | artemisTranslate }}</div>
+            </ng-template>
+        </div>
+    </div>
+</div>

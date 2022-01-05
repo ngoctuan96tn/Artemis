@@ -1,0 +1,19 @@
+.course-detail-parent-container {
+    flex-direction: column;
+    width: 100% !important;
+    height: 100% !important;
+    padding-top: 10px;
+}
+
+.chart {
+    display: flex;
+    position: relative;
+}
+
+.tooltip-header {
+    margin: 0 !important;
+}
+
+.hide-arrow {
+    visibility: hidden;
+}

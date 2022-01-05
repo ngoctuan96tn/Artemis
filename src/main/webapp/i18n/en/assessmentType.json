@@ -1,0 +1,12 @@
+{
+    "artemisApp": {
+        "assessmentMode": "Assessment Mode",
+        "AssessmentType": {
+            "null": "",
+            "undefined": "",
+            "AUTOMATIC": "Automatic",
+            "SEMI_AUTOMATIC": "Semi-Automatic",
+            "MANUAL": "Manual"
+        }
+    }
+}

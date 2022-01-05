@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="fileUploadExercise">
+            <h2><span jhiTranslate="artemisApp.fileUploadExercise.detail.title">File Upload Exercise</span> {{ fileUploadExercise.id }}</h2>
+            <hr />
+            <jhi-alert></jhi-alert>
+            <jhi-alert-error></jhi-alert-error>
+            <div class="text-start">
+                <jhi-non-programming-exercise-detail-common-actions
+                    *ngIf="course"
+                    [isExamExercise]="isExamExercise"
+                    [course]="course"
+                    [exercise]="fileUploadExercise"
+                ></jhi-non-programming-exercise-detail-common-actions>
+            </div>
+            <div *ngIf="fileUploadExercise.releaseDate != undefined && dayjs(fileUploadExercise.releaseDate).isBefore(dayjs())" class="mt-3">
+                <jhi-exercise-detail-statistics
+                    [exercise]="fileUploadExercise"
+                    [doughnutStats]="doughnutStats"
+                    [exerciseType]="ExerciseType.FILE_UPLOAD"
+                ></jhi-exercise-detail-statistics>
+                <hr />
+                <div>
+                    <h2><span jhiTranslate="artemisApp.exercise.details">Exercise Details</span></h2>
+                </div>
+                <hr />
+            </div>
+            <dl class="row-md jh-entity-details markdown-preview">
+                <jhi-exercise-details [exercise]="fileUploadExercise"></jhi-exercise-details>
+                <dt><span jhiTranslate="artemisApp.fileUploadExercise.filePattern">File Pattern</span></dt>
+                <dd>
+                    <span>{{ fileUploadExercise.filePattern }}</span>
+                </dd>
+                <dt><span jhiTranslate="artemisApp.exercise.sampleSolution">Sample Solution</span></dt>
+                <dd class="editor-outline-background" [innerHTML]="fileUploadExercise.sampleSolution! | htmlForMarkdown"></dd>
+            </dl>
+        </div>
+    </div>
+</div>

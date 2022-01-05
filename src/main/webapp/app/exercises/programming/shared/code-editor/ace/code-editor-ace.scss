@@ -1,0 +1,64 @@
+/*!* ==========================================================================
+Ace Editor
+========================================================================== *!*/
+
+.code-editor-ace {
+    flex: 1 1 auto;
+    display: flex;
+    &__content {
+        padding: 0;
+        display: flex;
+        flex: 1 1 auto;
+        &__editor {
+            flex: 1 1 auto;
+        }
+
+        .inline-feedback-d-none {
+            display: none;
+        }
+
+        .inline-feedback {
+            display: block;
+        }
+
+        .btn-inline-comment {
+            display: none;
+            color: #3e8acc; // btn-primary color
+            height: 16px;
+            background: white;
+        }
+
+        .ace_gutter-cell {
+            position: relative;
+        }
+
+        .ace_gutter-cell:hover .btn-inline-comment {
+            display: inline-flex;
+            position: absolute;
+            top: 8px; // standard gutter height is 16px
+            left: 25%;
+            transform: translate(-50%, -50%);
+
+            fa-icon:hover {
+                font-size: 15px;
+                transition: font-size 0.35s ease;
+            }
+        }
+
+        .ace_gutter-cell.ace_warning,
+        .ace_gutter-cell.ace_error {
+            background-position: unset;
+        }
+
+        &__no-selected {
+            justify-self: center;
+            width: 100%;
+        }
+    }
+
+    .diff-newLine {
+        position: absolute;
+        background: rgba(100, 200, 100, 0.5);
+        z-index: 20;
+    }
+}

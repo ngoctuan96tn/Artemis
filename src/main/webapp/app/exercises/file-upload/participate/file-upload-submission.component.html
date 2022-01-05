@@ -1,0 +1,84 @@
+<jhi-header-participation-page class="d-block mb-4" [exercise]="fileUploadExercise" [participation]="participation">
+    <span pagetitle>
+        {{ 'artemisApp.fileUploadSubmission.fileUpload' | artemisTranslate }}: <span class="font-weight-normal">{{ fileUploadExercise?.title }}</span>
+    </span>
+    <jhi-button
+        submitbutton
+        [disabled]="(!isActive && !isLate) || !submission || !submissionFile || !!result"
+        [title]="!isLate ? 'entity.action.submit' : 'entity.action.submitDeadlineMissed'"
+        (onClick)="submitExercise()"
+        [btnType]="!isLate ? ButtonType.PRIMARY : ButtonType.WARNING"
+        [tooltip]="submitButtonTooltip"
+        [isLoading]="isSaving"
+    >
+    </jhi-button>
+</jhi-header-participation-page>
+
+<jhi-alert></jhi-alert>
+
+<jhi-resizeable-container *ngIf="fileUploadExercise" [isExerciseParticipation]="true">
+    <!--region Left Panel-->
+    <div left-body class="px-2 pb-2 w-100">
+        <div class="row">
+            <div class="col-12 col-md-6" *ngIf="(isActive || isLate) && !result && fileUploadExercise && submission">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="artemisApp.fileUploadSubmission.selectFile">Please select </label>
+                    <div class="input-group background-file">
+                        <div class="custom-file overflow-ellipsis">
+                            <input #fileInput id="fileUploadInput" type="file" class="custom-file-input" (change)="setFileSubmissionForExercise($event)" />
+                        </div>
+                    </div>
+                    <p class="d-inline-block" jhiTranslate="artemisApp.fileUploadExercise.supportedFileExtensions">Supported file extensions:</p>
+                    <div class="d-inline-block" *ngFor="let extension of fileUploadExercise.filePattern!.split(',')">
+                        <span class="ms-1 badge bg-info">
+                            {{ extension | uppercase }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="submittedFileName && submission?.filePath" class="card-text">
+            <h6>
+                {{ 'artemisApp.fileUploadSubmission.submittedFile' | artemisTranslate: { filename: submittedFileName } }}
+                <span> {{ submission!.submissionDate! | artemisTimeAgo }}</span>
+            </h6>
+            <a class="text-primary" (click)="downloadFile(submission!.filePath!)" jhiTranslate="artemisApp.fileUploadSubmission.download">Download file</a>
+            <span class="ms-2 badge bg-info" *ngIf="submittedFileExtension">
+                {{ submittedFileExtension | uppercase }}
+            </span>
+        </div>
+        <div *ngIf="result && result.feedbacks && result.feedbacks.length && result.feedbacks.length > 0">
+            <br />
+            <h5><span jhiTranslate="artemisApp.fileUploadExercise.assessedSubmission">Your Assessment</span>:</h5>
+            <div class="row">
+                <jhi-additional-feedback
+                    *ngIf="unreferencedFeedback?.length && unreferencedFeedback!.length! > 0"
+                    class="col-xl-8 alert unreferencedFeedback"
+                    [feedback]="unreferencedFeedback!"
+                    [additional]="false"
+                    [course]="course"
+                >
+                </jhi-additional-feedback>
+            </div>
+            <div class="row">
+                <jhi-rating *ngIf="isOwnerOfParticipation" class="mt-2 alert alert-info" [result]="addParticipationToResult(result, participation)"></jhi-rating>
+            </div>
+        </div>
+        <jhi-complaint-student-view
+            *ngIf="fileUploadExercise && result && participation && isAfterAssessmentDueDate"
+            [result]="resultWithComplaint ? resultWithComplaint : result"
+            [participation]="participation"
+            [exercise]="fileUploadExercise"
+        >
+        </jhi-complaint-student-view>
+    </div>
+    <!--endregion-->
+    <!--region Right Panel-->
+    <fa-icon right-header [icon]="farListAlt"></fa-icon>&nbsp;
+    <span right-header jhiTranslate="artemisApp.exercise.problemStatement">Problem Statement</span>
+    <p right-body class="mb-3 markdown-preview" *ngIf="fileUploadExercise!.problemStatement">
+        <span [innerHTML]="fileUploadExercise!.problemStatement! | htmlForMarkdown"></span>
+    </p>
+    <!--endregion-->
+</jhi-resizeable-container>

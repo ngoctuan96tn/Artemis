@@ -1,0 +1,13 @@
+{
+    "artemisApp": {
+        "exercise-scores-chart": {
+            "title": "Performance in Exercises",
+            "yourScoreLabel": "Your score",
+            "averageScoreLabel": "Average score",
+            "maximumScoreLabel": "Best score",
+            "yAxis": "Score (%)",
+            "xAxis": "Exercises",
+            "exerciseType": "Exercise Type: {{ type }}"
+        }
+    }
+}

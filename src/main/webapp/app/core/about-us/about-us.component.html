@@ -1,0 +1,93 @@
+<div class="page">
+    <div class="card-title ms-2">
+        <h2 class="mb-3 mt-3 font-weight-bold">{{ 'aboutUsOverview.title' | artemisTranslate }}</h2>
+    </div>
+    <div class="mb-5 ms-2">
+        <h3 class="mb-3 font-weight-bold">{{ 'aboutUsOverview.feature' | artemisTranslate }}</h3>
+        <h6>{{ 'aboutUsOverview.exercises.title' | artemisTranslate }}</h6>
+        <ul>
+            <li>{{ 'aboutUsOverview.exercises.detail.programmingExercises' | artemisTranslate }}</li>
+            <li>{{ 'aboutUsOverview.exercises.detail.quiz' | artemisTranslate }}</li>
+            <li>{{ 'aboutUsOverview.exercises.detail.modelingExercises' | artemisTranslate }}</li>
+            <li>{{ 'aboutUsOverview.exercises.detail.textExercises' | artemisTranslate }}</li>
+            <li>{{ 'aboutUsOverview.exercises.detail.uploadExercises' | artemisTranslate }}</li>
+        </ul>
+        <h6>{{ 'aboutUsOverview.exam.title' | artemisTranslate }}</h6>
+        <ul>
+            <li>{{ 'aboutUsOverview.exam.detail.supportedExerciseTypes' | artemisTranslate }}</li>
+            <li>{{ 'aboutUsOverview.exam.detail.randomSelectionOfVariants' | artemisTranslate }}</li>
+            <li>{{ 'aboutUsOverview.exam.detail.fullFeatureOverview.description' | artemisTranslate }}</li>
+            <ul>
+                <li>
+                    <a [href]="examFeatureOverviewUrlStudents" rel="noreferrer noopener" class="footer-text ms-3" target="_blank">{{
+                        'aboutUsOverview.exam.detail.fullFeatureOverview.studentLink' | artemisTranslate
+                    }}</a>
+                </li>
+                <li>
+                    <a [href]="examFeatureOverviewUrlInstructors" rel="noreferrer noopener" class="footer-text ms-3" target="_blank">{{
+                        'aboutUsOverview.exam.detail.fullFeatureOverview.instructorLink' | artemisTranslate
+                    }}</a>
+                </li>
+            </ul>
+            <li>{{ 'aboutUsOverview.exam.detail.instructions.description' | artemisTranslate }}</li>
+            <ul>
+                <li>
+                    <a [href]="examInstructionsUrlStudents" rel="noreferrer noopener" class="footer-text ms-3" target="_blank">{{
+                        'aboutUsOverview.exam.detail.instructions.studentLink' | artemisTranslate
+                    }}</a>
+                </li>
+                <li>
+                    <a [href]="examInstructionsUrlInstructors" rel="noreferrer noopener" class="footer-text ms-3" target="_blank">{{
+                        'aboutUsOverview.exam.detail.instructions.instructorLink' | artemisTranslate
+                    }}</a>
+                </li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="row ms-4 me-4 mb-4" *ngIf="data && data.projectManagers">
+        <div class="project-manager" *ngFor="let pm of data.projectManagers">
+            <div class="card-body">
+                <div class="row ms-1">
+                    <div class="col-md-4"><img class="img-fluid w-100 rounded" [src]="SERVER_API_URL + pm.photoDirectory" /></div>
+                    <div class="col-md-8">
+                        <h4 class="font-weight-bold">{{ pm.fullName }}</h4>
+                        <h5>{{ pm.role }}</h5>
+                        <span>
+                            <i></i>
+                            <a href="{{ pm.website }}" target="_blank">Website</a></span
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3 class="mb-3 ms-2 font-weight-bold">{{ 'aboutUsOverview.getInTouch' | artemisTranslate }}</h3>
+        <ul>
+            <li>
+                <a [href]="bugReportUrl" rel="noreferrer noopener" class="footer-text ms-3" target="_blank">{{ 'bug' | artemisTranslate }}</a>
+            </li>
+            <li>
+                <a [href]="featureRequestUrl" class="footer-text ms-3" target="_blank"> {{ 'feature' | artemisTranslate }}</a>
+            </li>
+            <li>
+                <a [href]="email" class="footer-text ms-3" target="_top"> {{ 'contact' | artemisTranslate }}</a>
+            </li>
+            <li>
+                <a [href]="releaseNotesUrl" class="footer-text ms-3" target="_blank">{{ 'releaseNotes' | artemisTranslate }}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mt-5 ms-2 me-2" *ngIf="data && data.contributors">
+        <h3 class="font-weight-bold">{{ 'aboutUsOverview.contributors' | artemisTranslate }}</h3>
+        <div class="row">
+            <div class="contributor text-center" *ngFor="let contributor of data.contributors">
+                <img class="img-fluid" [src]="SERVER_API_URL + contributor.photoDirectory" />
+                <div class="text-center">
+                    <small class="font-weight-bold">{{ contributor.fullName }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
